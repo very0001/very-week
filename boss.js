@@ -108,7 +108,7 @@ function drawPressureBossHUD(ctx){
  ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillStyle='#c5d3c8';ctx.fillText((e.skillName||'挑战准备中')+' · 每'+bossSkillInterval(e).toFixed(1)+'秒施法',vw/2,y+25);ctx.restore();
 }
 
-function summonBossMinions(e,count){if(enemies.filter(q=>!q.dead).length>=420){notice('场上困难已满，召唤暂缓');return;}let offset=Math.floor(gameRandom()*9);for(let i=0;i<count;i++){addEnemy((offset+i+Math.floor(i/9)*3)%9);let q=enemies[enemies.length-1],a=i*TAU/count+gameRandom()*.12,r=270+gameRandom()*160;q.x=p.x+Math.cos(a)*r;q.y=p.y+Math.sin(a)*r;q.stun=1.2;q.summoned=true;ring(q.x,q.y,20,'#dcafea',.8)}notice('召唤到场：'+count+' 项困难 · 自然刷新仍暂停')}
+function summonBossMinions(e,count){if(enemies.filter(q=>!q.dead).length>=420){notice('场上困难已满，召唤暂缓');return;}let pool=smallEnemyPool();if(!pool.length)return;let offset=Math.floor(gameRandom()*pool.length);for(let i=0;i<count;i++){addEnemy(pool[(offset+i)%pool.length]);let q=enemies[enemies.length-1],a=i*TAU/count+gameRandom()*.12,r=270+gameRandom()*160;q.x=p.x+Math.cos(a)*r;q.y=p.y+Math.sin(a)*r;q.stun=1.2;q.summoned=true;ring(q.x,q.y,20,'#dcafea',.8)}notice('召唤到场：'+count+' 项困难 · 自然刷新仍暂停')}
 
 function bossSkillInterval(e){return Math.max(1.3,2.5-.2*((e.day||1)-1))}
 
